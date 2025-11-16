@@ -1,0 +1,26 @@
+---
+- name: Installer Nginx
+  apt:
+    name: "{{ nginx_package }}"
+    state: present
+  become: yes
+
+- name: Copier la configuration Nginx depuis le template
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify: Redémarrer Nginx
+
+- name: Déployer une page web
+  copy:
+    content: "<h1>Bienvenue sur {{ server_name }}</h1>"
+    dest: "{{ document_root }}/index.html"
+  become: yes
+
+- name: Démarrer et activer Nginx
+  service:
+    name: "{{ nginx_service }}"
+    state: started
+    enabled: yes
+  become: yes
+
