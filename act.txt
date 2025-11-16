@@ -1,0 +1,186 @@
+TP1 : Installation et Configuration d'Ansible
+Objectif
+Installer Ansible sur une machine de contrôle et configurer l'inventaire pour gérer des serveurs
+distants.
+Prérequis
+Deux machines virtuelles Linux Ubuntu (une pour le contrôle et une autre comme machine
+distante).
+Accès root ou un utilisateur avec privilèges sudo.
+SSH activé et accessible entre les deux machines.
+1️⃣ Installation d’Ansible
+![Installation Ansible](images/1.1.png)
+2️⃣ Configuration de l’inventaire
+
+L’inventaire peut être le fichier par défaut /etc/ansible/hosts ou un fichier personnalisé.
+![Installation Ansible](images/1.2.png)
+
+3️⃣ Configuration de SSH
+
+Sur la machine de contrôle, générez une clé SSH :
+![Installation Ansible](images/1.3.png)
+Copiez la clé sur la machine distante :
+Testez la connexion SSH sans mot de passe :
+![Installation Ansible](images/1.4.png)
+4️⃣ Vérification de la Connectivité
+Exécutez la commande suivante pour tester la connexion avec la machine distante :
+![Installation Ansible](images/1.5.png)
+Conclusion
+Vous avez installé Ansible et configuré un fichier d'inventaire. Vous êtes maintenant prêt à
+exécuter des commandes sur votre machine distante.
+TP2 : Exécution de Commandes avec Ansible
+Ad-Hoc
+Objectif
+Comprendre l'exécution de commandes sans playbook en utilisant Ansible.
+Prérequis
+Deux machines Linux (une machine de contrôle et une machine distante) configurées lors
+du TP1.
+Accès SSH fonctionnel entre la machine de contrôle et la machine distante.
+Ansible installé sur la machine de contrôle.
+1️⃣ Tester la connectivité
+![Installation Ansible](images/2.1.png)
+2️⃣ Exécuter des commandes distantes
+2.1 Afficher la version de l’OS
+![Installation Ansible](images/2.2.png)
+2.2 Vérifier l’espace disque
+![Installation Ansible](images/2.3.png)
+3️⃣ Gérer les services avec systemctl
+3.1 Vérifier l’état du service SSH
+![Installation Ansible](images/2.4.png)
+3.2 Redémarrer le service SSH
+![Installation Ansible](images/2.5.png)
+4️⃣ Gérer les fichiers et répertoires
+4.1 Créer un fichier vide
+![Installation Ansible](images/2.6.png)
+4.2 Copier un fichier depuis la machine de contrôle
+![Installation Ansible](images/2.7.png)
+5️⃣ Gérer les utilisateurs
+5.1 Ajouter un utilisateur
+![Installation Ansible](images/2.8.png)
+5.2 Supprimer un utilisateur
+![Installation Ansible](images/2.9.png)
+Conclusion
+Vous avez appris à exécuter des commandes Ansible Ad-Hoc pour interagir avec vos serveurs
+distants sans utiliser de playbooks.
+TP3 : Création d'un Playbook Simple
+Objectif
+Écrire un premier playbook Ansible et l'exécuter pour installer et configurer Apache sur un
+serveur Linux Ubuntu.
+Prérequis
+Deux machines Linux Ubuntu configurées lors des TP précédents (machine de contrôle et
+machine distante).
+Accès SSH fonctionnel entre la machine de contrôle et la machine distante.
+Ansible installé sur la machine de contrôle.
+Un inventaire Ansible configuré (voir TP1).
+1. Création du Playbook
+Créez un fichier nommé apache.yml sur la machine de contrôle :
+![Installation Ansible](images/3.1.png)
+2. Exécution du Playbook
+Pour exécuter le playbook, utilisez la commande :
+![Installation Ansible](images/3.2.png)
+3. Vérification
+Sur la machine distante, ouvrez un navigateur et accédez à :
+![Installation Ansible](images/3.3.png)
+Conclusion
+Vous avez créé et exécuté un playbook Ansible pour installer et configurer Apache, ainsi que
+pour déployer une page HTML statique.
+TP4 : Gestion des Variables et Facteurs
+Objectif
+Apprendre à utiliser les variables pour rendre les playbooks dynamiques et utiliser les
+ansible_facts pour adapter la configuration en fonction du système.
+Prérequis
+Deux machines Linux Ubuntu configurées lors des TP précédents (machine de contrôle et
+machine distante).
+Accès SSH fonctionnel entre la machine de contrôle et la machine distante.
+Ansible installé sur la machine de contrôle.
+Un inventaire Ansible configuré (voir TP1).
+Un playbook de base fonctionnel (voir TP3).
+1. Définition des Variables dans le Playbook
+Créez un fichier nommé apache_vars.yml sur la machine de contrôle :
+![Installation Ansible](images/4.1.png)
+2. Utilisation de Variables Externes
+Créez un répertoire group_vars/ et un fichier de variables pour le groupe webservers :
+![Installation Ansible](images/4.2.png)
+Ajoutez le contenu suivant :
+![Installation Ansible](images/4.3.png)
+3. Utilisation des ansible_facts
+Ajoutez cette tâche à votre playbook pour afficher les informations système :
+![Installation Ansible](images/4.4.png)
+4. Exécution du Playbook
+Pour exécuter le playbook, utilisez la commande :
+![Installation Ansible](images/4.5.png)
+5. Vérification
+Sur la machine distante, ouvrez un navigateur et accédez à :
+![Installation Ansible](images/4.6
+.png)
+Conclusion
+Vous avez appris à utiliser les variables dans un playbook Ansible, à les stocker dans des fichiers
+externes et à exploiter les ansible_facts pour adapter la configuration en fonction du système.
+TP5 : Utilisation des Rôles Ansible
+Objectif
+Structurer un projet Ansible en utilisant des rôles.
+Prérequis
+Deux machines Linux Ubuntu configurées lors des TP précédents (machine de contrôle et
+machine distante).
+Accès SSH fonctionnel entre la machine de contrôle et la machine distante.
+Ansible installé sur la machine de contrôle.
+Un inventaire Ansible configuré (voir TP1).
+Connaissance des playbooks (voir TP3 et TP4).
+1. Création d'un Rôle Ansible
+Sur la machine de contrôle, utilisez la commande suivante pour créer un rôle Ansible nommé
+nginx :
+![Installation Ansible](images/5.1.png)
+2. Configuration du Rôle
+2.1 Définition des Variables
+Éditez roles/nginx/vars/main.yml et ajoutez :
+![Installation Ansible](images/5.2.png)
+2.2 Définition des Tâches
+Éditez roles/nginx/tasks/main.yml et ajoutez :
+![Installation Ansible](images/5.3.png)
+2.3 Création du Fichier de Template
+Éditez roles/nginx/templates/nginx.conf.j2 et ajoutez :
+![Installation Ansible](images/5.4.png)
+2.4 Ajout des Handlers
+Éditez roles/nginx/handlers/main.yml et ajoutez :
+![Installation Ansible](images/5.5.png)
+3. Utilisation du Rôle dans un Playbook
+Créez un fichier site.yml et ajoutez :
+![Installation Ansible](images/5.6.png)
+4. Exécution du Playbook
+Exécutez le playbook avec :
+![Installation Ansible](images/5.7.png)
+5. Vérification
+Sur la machine distante, ouvrez un navigateur et accédez à :
+![Installation Ansible](images/5.8.png)
+Conclusion
+Vous avez appris à structurer un projet Ansible en utilisant des rôles, ce qui permet de réutiliser
+du code et de mieux organiser vos playbooks.
+TP6 : Déploiement d'une Application Web
+avec Templates Jinja2
+Objectif
+Utiliser des templates pour personnaliser la configuration de Nginx et déployer une application
+web.
+Prérequis
+Deux machines Linux Ubuntu configurées lors des TP précédents (machine de contrôle et
+machine distante), accès SSH fonctionnel entre la machine de contrôle et la machine distante,
+Ansible installé sur la machine de contrôle, un inventaire Ansible configuré (voir TP1), un rôle
+Nginx déjà créé (voir TP5).
+1. Création du Template Jinja2
+Dans le rôle nginx , créez un fichier de template pour la configuration Nginx :
+![Installation Ansible](images/6.1.png)
+2. Définition des Variables
+Dans roles/nginx/vars/main.yml , ajoutez :
+![Installation Ansible](images/6.2.png)
+3. Modification des Tâches pour Utiliser le
+Template
+Éditez roles/nginx/tasks/main.yml et ajoutez :
+![Installation Ansible](images/6.3.png)
+4. Déploiement d'une Page Web
+Ajoutez une tâche pour créer une page web :
+![Installation Ansible](images/6.4.png)
+5. Exécution du Playbook
+Lancez le playbook avec :
+![Installation Ansible](images/6.5.png)
+
+Conclusion
+Vous avez appris à utiliser les templates Jinja2 pour générer dynamiquement la configuration de
+Nginx et personnaliser le déploiement d'une application web.
